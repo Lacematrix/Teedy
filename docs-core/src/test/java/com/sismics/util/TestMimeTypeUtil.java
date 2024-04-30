@@ -67,5 +67,8 @@ public class TestMimeTypeUtil {
         // Detect MP4 files
         path = Paths.get(ClassLoader.getSystemResource("file/video.mp4").toURI());
         Assert.assertEquals(MimeType.VIDEO_MP4, MimeTypeUtil.guessMimeType(path, "video.mp4"));
+
+        path = Paths.get(ClassLoader.getSystemResource("file/tt.bin").toURI());
+        Assert.assertEquals(MimeType.DEFAULT, MimeTypeUtil.guessMimeType(path, "tt.bin"));
     }
 }
