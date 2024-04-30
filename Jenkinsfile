@@ -11,6 +11,11 @@ pipeline {
           sh 'mvn pmd:pmd'
       }
     }
+    stage('Test') {
+      steps {
+        sh 'mvn test'
+      }
+    }
   }
   post {
     always {
