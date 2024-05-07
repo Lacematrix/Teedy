@@ -29,8 +29,8 @@ pipeline {
         stage('Run containers') {
             steps {
                 script {
-                    docker.image('kiritoharold/traccytian:latest').run('-p 8082:8082') // Replace 'your-image-name:tag' with your image name and tag
-                    docker.image('kiritoharold/traccytian:latest').run('-p 8083:8083') // Replace 'your-image-name:tag' with your image name and tag
+                    docker.image('kiritoharold/traccytian:latest').run('-p 10084:10084') // Replace 'your-image-name:tag' with your image name and tag
+                    docker.image('kiritoharold/traccytian:latest').run('-p 10085:10085') // Replace 'your-image-name:tag' with your image name and tag
                     docker.image('kiritoharold/traccytian:latest').run('-p 10086:10086') // Replace 'your-image-name:tag' with your image name and tag
                 }
             }
