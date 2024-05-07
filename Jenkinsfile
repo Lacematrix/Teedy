@@ -19,7 +19,7 @@ pipeline {
         stage('Upload image') {
             steps {
                 script {
-                    docker.withRegistry(, 'docker_hub') {
+                    docker.withRegistry('', 'docker_hub') {
                         docker.image('kiritoharold/traccytian:latest').push() // Replace 'your-image-name:tag' with your image name and tag
                     }
                 }
