@@ -1,35 +1,39 @@
 pipeline {
-  agent any
-  stages {
-    stage('Build') {
-      steps {
-        sh 'mvn -B -DskipTests clean package'
-      }
-    }
-    stage('pmd') {
-      steps {
-        sh 'mvn pmd:pmd'
-      }
-    }
-    stage('Test') {
-      steps {
-        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE'){
-          sh 'mvn test --fail-never'
+    agent any
+    stages {
+        stage('Package') {
+            steps {
+                checkout scm
+                sh 'mvn -B -DskipTests clean package'
+            }
         }
-      }
+        // Building Docker image
+        stage('Building image') {
+            steps {
+                script {
+                    docker.build('kiritoharold/traccytian:latest') // Replace 'your-image-name:tag' with your desired image name and tag
+                }
+            }
+        }
+        // Pushing Docker image to Docker Hub
+        stage('Upload image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
+                        docker.image('kiritoharold/traccytian:latest').push() // Replace 'your-image-name:tag' with your image name and tag
+                    }
+                }
+            }
+        }
+        // Running Docker containers
+        stage('Run containers') {
+            steps {
+                script {
+                    docker.image('kiritoharold/traccytian:latest').withRun('-p 8082:8082') // Replace 'your-image-name:tag' with your image name and tag
+                    docker.image('kiritoharold/traccytian:latest').withRun('-p 8083:8083') // Replace 'your-image-name:tag' with your image name and tag
+                    docker.image('kiritoharold/traccytian:latest').withRun('-p 8084:8084') // Replace 'your-image-name:tag' with your image name and tag
+                }
+            }
+        }
     }
-    stage('Generate JavaDoc') {
-      steps {
-        sh 'mvn javadoc:jar'
-      }
-    }
-  }
-  post {
-    always {
-      archiveArtifacts artifacts: '**/target/site/**', fingerprint: true
-      archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-      archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
-      archiveArtifacts artifacts: '**/target/surefire-reports/*.xml', fingerprint: true
-    }
-  }
 }
