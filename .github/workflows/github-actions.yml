@@ -58,7 +58,7 @@ jobs:
         id: metadata
         uses: docker/metadata-action@v3
         with:
-          images: traccytian/teedytest2024
+          images: kiritoharold/traccytian:latest
           flavor: |
             latest=false
           tags: |
