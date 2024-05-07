@@ -31,7 +31,7 @@ pipeline {
                 script {
                     docker.image('kiritoharold/traccytian:latest').run('-p 8082:8082') // Replace 'your-image-name:tag' with your image name and tag
                     docker.image('kiritoharold/traccytian:latest').run('-p 8083:8083') // Replace 'your-image-name:tag' with your image name and tag
-                    docker.image('kiritoharold/traccytian:latest').run('-p 8084:8084') // Replace 'your-image-name:tag' with your image name and tag
+                    docker.image('kiritoharold/traccytian:latest').run('-p 10086:10086') // Replace 'your-image-name:tag' with your image name and tag
                 }
             }
         }
